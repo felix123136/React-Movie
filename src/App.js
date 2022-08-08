@@ -32,7 +32,7 @@ const App = () => {
             <h1>React Movie</h1>
             <div className="search">
                 <input 
-                    placeholder="Search for a movie, tv show, person..."
+                    placeholder="Search for a movie..."
                     value={searchTerm}
                     onChange={(e) => {setSearchTerm(e.target.value)}}
                     onKeyUp={(e) => {if(e.key === 'Enter' || e.keyCode === 13) searchMovies(searchTerm)}}
