@@ -32,8 +32,7 @@ const App = () => {
         <div className="app">
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>My Title</title>
-                <link rel="canonical" href="http://mysite.com/example" />
+                <title>React Movie</title>
             </Helmet>
             <h1>React Movie</h1>
             <div className="search">
