@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from "react-helmet";
 
 import './App.css';
 import MovieCard from './MovieCard';
@@ -29,6 +30,11 @@ const App = () => {
 
     return (
         <div className="app">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>My Title</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <h1>React Movie</h1>
             <div className="search">
                 <input 
