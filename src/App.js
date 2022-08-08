@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import MovieCard from './MovieCard';
+import SearchIcon from './search.svg';
+
+
+const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.React_App_API_TOKEN}`;
+
+const App = () => {
+    const [movies, setMovies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const searchMovies = async (title) => {
+        const response = await fetch(`${API_URL}&query=${title}`);
+        const data = await response.json();
+        setMovies(data.results);
+    }
+
+    const searchPopularMovies = async () => {
+        const response = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.React_App_API_TOKEN}`);
+        const data = await response.json();
+        setMovies(data.results)
+    }
+
+    useEffect(() => {
+        searchPopularMovies();
+    }, []);
+
+    return (
+        <div className="app">
+            <h1>React Movie</h1>
+            <div className="search">
+                <input 
+                    placeholder="Search for a movie, tv show, person..."
+                    value={searchTerm}
+                    onChange={(e) => {setSearchTerm(e.target.value)}}
+                    onKeyUp={(e) => {if(e.key === 'Enter' || e.keyCode === 13) searchMovies(searchTerm)}}
+                />
+                <img 
+                    src={SearchIcon}
+                    alt="search"
+                    onClick={() => {searchMovies(searchTerm)}}
+                />
+            </div>
+            {movies?.length > 0 
+                ? (
+                    <div className="container">
+                        {movies.map((movie) => {
+                            return (
+                                <MovieCard movie={movie}/>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <div className="empty">
+                        <h2>No Movies Found!</h2>
+                    </div>
+                )}
+        </div>
+    );
 }
 
 export default App;
